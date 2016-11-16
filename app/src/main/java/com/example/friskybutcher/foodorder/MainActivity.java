@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
+    DatabaseHelper myDb;
     public EditText table_number;
     Button butOne;
 
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myDb = new DatabaseHelper(this);
 
         table_number = (EditText) findViewById(R.id.table_no);
         butOne = (Button) findViewById(R.id.button_table);
@@ -31,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(getApplicationContext(), "Logged in at Table  " + table_number.getText(), Toast.LENGTH_LONG).show();
         startActivity(new Intent(MainActivity.this, Catagories.class));
     }
-
 
 }
 
