@@ -81,4 +81,9 @@ public class Catagories extends ListActivity
             return row;
         }
     }
+
+    protected void onListItemClick(ListView i, View v, int position, long id)
+    {
+
+    }
 }
