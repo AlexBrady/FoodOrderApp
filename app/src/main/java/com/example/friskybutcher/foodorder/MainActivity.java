@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-    DatabaseHelper myDb;
+    DBManager myDb;
     public EditText table_number;
     Button butOne;
 
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myDb = new DatabaseHelper(this);
+        myDb = new DBManager(this);
 
         table_number = (EditText) findViewById(R.id.table_no);
         butOne = (Button) findViewById(R.id.button_table);
