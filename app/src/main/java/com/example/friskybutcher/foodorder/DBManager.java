@@ -155,5 +155,141 @@ public class DBManager
         return mCursor;
     }
 
+    public Cursor getSoup()
+    {
+        Cursor mCursor = null;
+        String soup_cata = "Soup";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + soup_cata + "'";
+
+        try
+        {
+            mCursor = db.rawQuery(q, null);
+
+            if(mCursor != null)
+            {
+                mCursor.moveToFirst();
+            }
+            return mCursor;
+        }
+        catch(SQLException e)
+        {
+            Log.e("Error", "Failed to get item" + e);
+        }
+        return mCursor;
+    }
+
+    public Cursor getSandwiches()
+    {
+        Cursor mCursor = null;
+        String sandwich_cata = "Sandwiches";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + sandwich_cata + "'";
+
+        try
+        {
+            mCursor = db.rawQuery(q, null);
+
+            if(mCursor != null)
+            {
+                mCursor.moveToFirst();
+            }
+            return mCursor;
+        }
+        catch(SQLException e)
+        {
+            Log.e("Error", "Failed to get item" + e);
+        }
+        return mCursor;
+    }
+
+    public Cursor getPasta()
+    {
+        Cursor mCursor = null;
+        String soup_cata = "Soup";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + soup_cata + "'";
+
+        try
+        {
+            mCursor = db.rawQuery(q, null);
+
+            if(mCursor != null)
+            {
+                mCursor.moveToFirst();
+            }
+            return mCursor;
+        }
+        catch(SQLException e)
+        {
+            Log.e("Error", "Failed to get item" + e);
+        }
+        return mCursor;
+    }
+
+    public Cursor getFish()
+    {
+        Cursor mCursor = null;
+        String soup_cata = "Soup";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + soup_cata + "'";
+
+        try
+        {
+            mCursor = db.rawQuery(q, null);
+
+            if(mCursor != null)
+            {
+                mCursor.moveToFirst();
+            }
+            return mCursor;
+        }
+        catch(SQLException e)
+        {
+            Log.e("Error", "Failed to get item" + e);
+        }
+        return mCursor;
+    }
+
+    public Cursor getMainCourse()
+    {
+        Cursor mCursor = null;
+        String soup_cata = "Soup";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + soup_cata + "'";
+
+        try
+        {
+            mCursor = db.rawQuery(q, null);
+
+            if(mCursor != null)
+            {
+                mCursor.moveToFirst();
+            }
+            return mCursor;
+        }
+        catch(SQLException e)
+        {
+            Log.e("Error", "Failed to get item" + e);
+        }
+        return mCursor;
+    }
+    public Cursor getDesert()
+    {
+        Cursor mCursor = null;
+        String soup_cata = "Soup";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + soup_cata + "'";
+
+        try
+        {
+            mCursor = db.rawQuery(q, null);
+
+            if(mCursor != null)
+            {
+                mCursor.moveToFirst();
+            }
+            return mCursor;
+        }
+        catch(SQLException e)
+        {
+            Log.e("Error", "Failed to get item" + e);
+        }
+        return mCursor;
+    }
 
 }
