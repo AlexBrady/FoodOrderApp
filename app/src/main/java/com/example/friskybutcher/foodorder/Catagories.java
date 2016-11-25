@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 public class Catagories extends ListActivity
 {
@@ -23,6 +24,7 @@ public class Catagories extends ListActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_catagories);
+
 
         setListAdapter(new MyCustomAdapter(Catagories.this, R.layout.row, catagory));
     }

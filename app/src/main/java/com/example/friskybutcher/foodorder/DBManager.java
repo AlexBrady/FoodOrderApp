@@ -50,6 +50,7 @@ public class DBManager
 
     private static class DatabaseHelper extends SQLiteOpenHelper
     {
+        private  SQLiteOpenHelper _openHelper;
         DatabaseHelper(Context context)
         {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -106,15 +107,6 @@ public class DBManager
             }
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
             onCreate(db);
-        }
-
-        public void insertMenu(HashMap<String, String> queryValues)
-        {
-            SQLiteDatabase database = this.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("NAME", queryValues.get("StudentName"));
-            database.insert("Students", null, values);
-            database.close();
         }
 
     }
@@ -288,6 +280,18 @@ public class DBManager
         catch(SQLException e)
         {
             Log.e("Error", "Failed to get item" + e);
+        }
+        return mCursor;
+    }
+
+    public Cursor showItems()
+    {
+        String[] columns = new String[] { DBManager.COL_2, DBManager.COL_5, DBManager.COL_4};
+        Cursor mCursor = db.query(DBManager.TABLE_NAME, columns, null, null, null ,null, null);
+
+        if ( mCursor != null)
+        {
+            mCursor.moveToFirst();
         }
         return mCursor;
     }

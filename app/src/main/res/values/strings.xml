@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FoodOrder</string>
     <string name="name">Item Name:</string>
-    <string name="description">Description::</string>
+    <string name="description">Description:</string>
     <string name="price">Price:</string>
 
 </resources>

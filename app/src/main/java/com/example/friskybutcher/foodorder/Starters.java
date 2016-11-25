@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -39,5 +40,10 @@ public class Starters extends ListActivity
         mAdapter = new SimpleCursorAdapter(this, R.layout.starter_row, mCursor, columns, to, 0);
 
         setListAdapter(mAdapter);
+    }
+
+    public void onListItemClick(ListView i, View v, int position, long id)
+    {
+
     }
 }
