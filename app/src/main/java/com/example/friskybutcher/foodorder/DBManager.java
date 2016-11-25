@@ -227,8 +227,8 @@ public class DBManager
     public Cursor getFish()
     {
         Cursor mCursor = null;
-        String soup_cata = "Soup";
-        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + soup_cata + "'";
+        String fish_cata = "Fish";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + fish_cata + "'";
 
         try
         {
