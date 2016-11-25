@@ -272,8 +272,8 @@ public class DBManager
     public Cursor getDesert()
     {
         Cursor mCursor = null;
-        String soup_cata = "Soup";
-        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + soup_cata + "'";
+        String desert_cata = "Desert";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + desert_cata + "'";
 
         try
         {
