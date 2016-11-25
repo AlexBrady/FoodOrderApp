@@ -135,25 +135,18 @@ public class DBManager
     public Cursor getStarters()
     {
         Cursor mCursor = null;
+        String starter_cata = "Starters";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + starter_cata + "'";
 
         try
         {
-            mCursor = db.query(TABLE_NAME, new String[]
-            {
-                "_id",
-                COL_2,
-                COL_3,
-                COL_4,
-                COL_5,
-                COL_6
-            },
-                    null, null, null, null, null
-            );
+            mCursor = db.rawQuery(q, null);
 
             if(mCursor != null)
             {
                 mCursor.moveToFirst();
             }
+            return mCursor;
         }
         catch(SQLException e)
         {
@@ -161,5 +154,6 @@ public class DBManager
         }
         return mCursor;
     }
+
 
 }
