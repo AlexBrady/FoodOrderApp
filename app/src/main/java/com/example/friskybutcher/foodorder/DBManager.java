@@ -250,8 +250,8 @@ public class DBManager
     public Cursor getMainCourse()
     {
         Cursor mCursor = null;
-        String soup_cata = "Soup";
-        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + soup_cata + "'";
+        String main_cata = "Main Course";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + main_cata + "'";
 
         try
         {
