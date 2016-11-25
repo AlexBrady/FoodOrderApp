@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class Catagories extends ListActivity
 {
-    String[] catagory = {"Starters", "Soup", "Sandwiches", "Fish", "Pasta", "Main Course", "Desert"};
+    String[] catagory = {"Starters", "Soup", "Sandwiches", "Pasta", "Fish", "Main Course", "Desert"};
     ListView list;
 
     @Override

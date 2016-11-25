@@ -204,8 +204,8 @@ public class DBManager
     public Cursor getPasta()
     {
         Cursor mCursor = null;
-        String soup_cata = "Soup";
-        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + soup_cata + "'";
+        String pasta_cata = "Pasta";
+        String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + pasta_cata + "'";
 
         try
         {
