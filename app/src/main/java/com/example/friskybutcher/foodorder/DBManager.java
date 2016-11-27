@@ -18,18 +18,11 @@ import java.util.HashMap;
 
 public class DBManager
 {
-    /*
-    FileReader file = new FileReader(assignData.csv);
-    BufferedReader buffer = new BufferedReader(file);*/
 
     private static final String DATABASE_NAME = "Restaurant";
     private static final String TABLE_NAME = "food_items";
+    private static final String ORDER_TABLE = "orders";
     private static final int DATABASE_VERSION = 1;
-    /*
-    String line = "";
-    String columns = "_id, Name, Catagory, Price, Description, Stock";
-    String str1 = "INSERT INTO " + TABLE_NAME + " (" + columns + ") values(";
-    String str2 = ");"; */
 
     public static final String COL_1 = "_id";
     public static final String COL_2 = "NAME";
@@ -37,6 +30,15 @@ public class DBManager
     public static final String COL_4 = "PRICE";
     public static final String COL_5 = "DESCRIPTION";
     public static final String COL_6 = "STOCK";
+
+    public static final String COL_1_O = "_id";
+    public static final String COL_2_O = "NAME";
+    public static final String COL_3_O = "PRICE";
+
+    private static final String TAG = "DbAdapter";
+
+    private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2 + " TEXT,  " + COL_3 + " TEXT" + COL_4 + " REAL, " + COL_5 + " TEXT, " + COL_6 + " STOCK);";
+    private static final String CREATE_ORDER_TABLE = "CREATE TABLE " + ORDER_TABLE + "(" + COL_1_O + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2_O + " TEXT,  " + COL_3_O + " REAL);";
 
     private final Context context;
     private DatabaseHelper DBHelper;
@@ -56,16 +58,19 @@ public class DBManager
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
+
         @Override
         public void onCreate(SQLiteDatabase db)
         {
-            db.execSQL("create table " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,CATAGORY TEXT,PRICE REAL,DESCRIPTION TEXT,STOCK INTEGER)");
+            //Log.w(TAG, CREATE_TABLE);
+            db.execSQL(CREATE_TABLE);
 
-            /*String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                    + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_2
-                    + " TEXT," + COL_3 + "TEXT," + COL_4 + " INTEGER," +
-                    COL_5 + " DESCRIPTION," + COL_6 + " INTEGER" + ")";
-            db.execSQL(CREATE_TABLE);*/
+            //db.execSQL("create table " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,CATAGORY TEXT,PRICE REAL,DESCRIPTION TEXT,STOCK INTEGER)");
+            //db.execSQL("create table " + ORDER_TABLE + "(_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,PRICE REAL");
+            //Log.w(TAG, CREATE_ORDER_TABLE);
+            db.execSQL(CREATE_ORDER_TABLE);
+
+            db.execSQL("insert into " + ORDER_TABLE + "(NAME, PRICE) VALUES ('Stuff', 7)");
 
             db.execSQL("insert into " + TABLE_NAME + "(NAME, CATAGORY, PRICE, DESCRIPTION, STOCK) VALUES ('Spicy Chicken Wangs', 'Starters', 7.99, 'Locally sourced Irish Chicken Wings with super spicy sauce!', 150)");
             db.execSQL("insert into " + TABLE_NAME + "(NAME, CATAGORY, PRICE, DESCRIPTION, STOCK) VALUES ('Mexican Quesadillas', 'Starters', 6.99, 'Delicious crunchy quesadillas', 120)");
@@ -101,11 +106,9 @@ public class DBManager
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
-            /*if (oldVersion < 2)
-            {
-                db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + COL_1 + "INTEGER PRIMARY KEY AUTOINCREMENT");
-            }*/
+            Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + ORDER_TABLE);
             onCreate(db);
         }
 
@@ -113,14 +116,8 @@ public class DBManager
 
     public DBManager open() throws SQLException
     {
-        try
-        {
-            db = DBHelper.getWritableDatabase();
-        }
-        catch (SQLException e)
-        {
-            Log.e("error", "Failed to open Database: " + e);
-        }
+        DBHelper = new DatabaseHelper(context);//mDbHelper now has the ability (through SQLiteOpenHelper) to manage our database (through context)
+        db = DBHelper.getWritableDatabase();//opens database to be read or written
         return this;
     }
 
@@ -319,9 +316,14 @@ public class DBManager
         return mCursor;
     }
 
-    public void addToOrder(Cursor mCursor)
+    public long addToOrder(String name, float price)
     {
+        ContentValues orderValues = new ContentValues();
+        orderValues.put(COL_2, name);
+        orderValues.put(COL_4, price);
 
+        //return db.insert(ORDER_TABLE, null, orderValues);
+        return 1;
     }
 
 }

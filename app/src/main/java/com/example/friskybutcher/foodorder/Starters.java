@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -16,8 +17,13 @@ public class Starters extends ListActivity
 {
     String[] columns = {"NAME", "DESCRIPTION", "PRICE"};
     int[] to = {R.id.name, R.id.description, R.id.price};
+
+    TextView orderName;
+    TextView orderPrice;
+
     Cursor mCursor;
     DBManager db;
+    DBManager db2;
     Intent starter;
     SimpleCursorAdapter mAdapter;
     //TodoDatabaseHandler is a SQLiteOpenHelper class connecting to SQLite
@@ -33,8 +39,12 @@ public class Starters extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starters);
 
+        orderName = (TextView) findViewById(R.id.name);
+        orderPrice = (TextView) findViewById(R.id.price);
+
         starter = new Intent(this, Starters.class);
         db = new DBManager(this);
+        db2 = new DBManager(this);
 
         try
         {
@@ -49,7 +59,7 @@ public class Starters extends ListActivity
         // Find ListView to populate
         //ListView lvItems = (ListView) findViewById(R.id.list);
         // Setup cursor adapter using cursor from last step
-        TodoCursorAdapter todoAdapter = new TodoCursorAdapter(this, mCursor);
+        //TodoCursorAdapter todoAdapter = new TodoCursorAdapter(this, mCursor);
         // Attach cursor adapter to the ListView
         //lvItems.setAdapter(todoAdapter);
 
@@ -63,14 +73,21 @@ public class Starters extends ListActivity
         super.onListItemClick(l, v, position, id);
 
         /*ListView lv =  (ListView) findViewById(android.R.id.list);
-        String str=lv.getItemAtPosition(position).toString();
+        String str = lv.getItemAtPosition(position).toString();
         Intent intent = new Intent(getApplicationContext(), ShowItems.class);
         intent.putExtra("listPosition", id);
-        Toast.makeText(getApplicationContext(), "List id : " + str, Toast.LENGTH_SHORT).show();
+
         startActivity(intent);*/
+        //db2.open();
 
+        String row1 = orderName.getText().toString();
+        String row2 = orderPrice.getText().toString();
+        float rowPrice = Float.parseFloat(row2);
+        Log.e("my error", row1);
 
+        db.addToOrder(row1, rowPrice);
 
-        db.addToOrder(mCursor);
+        Toast.makeText(getApplicationContext(), "" + row1 + " added to order!", Toast.LENGTH_SHORT).show();
+
     }
 }
