@@ -101,10 +101,10 @@ public class DBManager
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
-            if (oldVersion < 2)
+            /*if (oldVersion < 2)
             {
                 db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + COL_1 + "INTEGER PRIMARY KEY AUTOINCREMENT");
-            }
+            }*/
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
             onCreate(db);
         }
@@ -122,6 +122,29 @@ public class DBManager
             Log.e("error", "Failed to open Database: " + e);
         }
         return this;
+    }
+
+    public Cursor getCategories()
+    {
+        //true, TABLE_NAME, new String[] { COL_1 ,COL_3 }, null, null, COL_3, null, null, null
+        Cursor mCursor = null;
+        //String q = "SELECT DISTINCT("+ COL_3 + "), " + COL_1 + " FROM " + TABLE_NAME + "GROUP BY (NOT NULL " + COL_3 + ")";
+        String w = "SELECT DISTINCT " + COL_3 + " AS " + COL_1 + "," + COL_3 + " FROM " + TABLE_NAME;
+        try
+        {
+            mCursor = db.rawQuery(w, null);
+
+            if(mCursor != null)
+            {
+                mCursor.moveToFirst();
+            }
+            return mCursor;
+        }
+        catch(SQLException e)
+        {
+            Log.e("Error", "Failed to get item" + e);
+        }
+        return mCursor;
     }
 
     public Cursor getStarters()
@@ -294,6 +317,11 @@ public class DBManager
             mCursor.moveToFirst();
         }
         return mCursor;
+    }
+
+    public void addToOrder(Cursor mCursor)
+    {
+
     }
 
 }

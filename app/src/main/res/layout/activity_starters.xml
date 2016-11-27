@@ -11,8 +11,21 @@
     tools:context="com.example.friskybutcher.foodorder.Starters">
 
 
-    <ListView
-        android:layout_width="wrap_content"
+    <Button
+        android:text="View Order"
+        android:id="@+id/orderbutton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@android:id/list" />
+        android:layout_weight="0"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

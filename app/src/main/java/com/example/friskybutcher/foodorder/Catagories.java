@@ -3,87 +3,54 @@ package com.example.friskybutcher.foodorder;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
 public class Catagories extends ListActivity
 {
-    String[] catagory = {"Starters", "Soup", "Sandwiches", "Pasta", "Fish", "Main Course", "Desert"};
-    ListView list;
+    String[] columns = {"CATAGORY"};
+    int[] to = {R.id.catagory};
+    Cursor mCursor;
+    DBManager db;
+    Intent soup;
+    SimpleCursorAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.menu_catagories);
+        setContentView(R.layout.activity_starters);
 
+        soup = new Intent(this, Catagories.class);
+        db = new DBManager(this);
 
-        setListAdapter(new MyCustomAdapter(Catagories.this, R.layout.row, catagory));
-    }
-
-    public class MyCustomAdapter extends ArrayAdapter<String>
-    {
-        public MyCustomAdapter(Context context, int textViewResId, String[] objects)
+        try
         {
-            super(context, textViewResId, objects);
+            db.open();
+            mCursor = db.getCategories();
+            //mCursor.getString( mCursor.getColumnIndex( "CATAGORY "));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
         }
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
-            View row = convertView;
+        mAdapter = new SimpleCursorAdapter(this, R.layout.row, mCursor, columns, to, 0);
 
-            if(row==null)
-            {
-                LayoutInflater inflater = getLayoutInflater();
-                row=inflater.inflate(R.layout.row, parent, false);
-            }
-
-            ImageView icon = (ImageView)row.findViewById(R.id.starter);
-
-            TextView label = (TextView)row.findViewById(R.id.catagory);
-            label.setText(catagory[position] + "\n");
-
-            if(catagory[position] == "Soup")
-            {
-                icon.setImageResource(R.drawable.soup);
-            }
-            else if (catagory[position] == "Sandwiches")
-            {
-                icon.setImageResource(R.drawable.sandwich);
-            }
-            else if (catagory[position] == "Pasta")
-            {
-                icon.setImageResource(R.drawable.pasta);
-            }
-            else if (catagory[position] == "Fish")
-            {
-                icon.setImageResource(R.drawable.fish);
-            }
-            else if (catagory[position] == "Main Course")
-            {
-                icon.setImageResource(R.drawable.main_course);
-            }
-            else if (catagory[position] == "Desert")
-            {
-                icon.setImageResource(R.drawable.desert);
-            }
-            else
-            {
-                icon.setImageResource(R.drawable.starter);
-            }
-
-            return row;
-        }
+        setListAdapter(mAdapter);
     }
+
 
     protected void onListItemClick(ListView i, View v, int position, long id)
     {

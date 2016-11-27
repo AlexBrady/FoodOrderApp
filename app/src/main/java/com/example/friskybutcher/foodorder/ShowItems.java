@@ -1,43 +1,24 @@
-/*package com.example.friskybutcher.foodorder;
+package com.example.friskybutcher.foodorder;
 
-
-import android.app.ListActivity;
-import android.content.Intent;
-import android.database.Cursor;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
-public class ShowItems extends ListActivity
+public class ShowItems extends AppCompatActivity
 {
-    String[] columns = {"NAME", "DESCRIPTION", "PRICE"};
-    int[] to = {R.id.name, R.id.description, R.id.price};
-    DBManager db;
-    Cursor mCursor;
-    Intent items;
-    SimpleCursorAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.show_items);
+        setContentView(R.layout.activity_show_items);
 
-        items = new Intent(this, ShowItems.class);
-        db = new DBManager(this);
-
-        try
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
         {
-            db.open();
-            mCursor = db.showItems();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        mAdapter = new android.widget.SimpleCursorAdapter(this, R.layout.show_items, mCursor, columns, to, 0);
+            //Long position = extras.getLong("listPosition");
+            //Toast.makeText(getApplicationContext(), "Name Choosen : " + position, Toast.LENGTH_SHORT).show();
 
-        setListAdapter(mAdapter);
-
+        }
     }
-
-}*/
+}
