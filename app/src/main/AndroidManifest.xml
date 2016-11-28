@@ -24,7 +24,8 @@
         <activity android:name=".MainCourse" />
         <activity android:name=".Desert" />
         <activity android:name=".ShowItems" />
-        <activity android:name=".Order"></activity>
+        <activity android:name=".Order" />
+        <activity android:name=".Pay"></activity>
     </application>
 
 </manifest>
