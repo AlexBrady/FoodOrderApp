@@ -24,6 +24,7 @@ public class Catagories extends ListActivity
     Cursor mCursor;
     DBManager db;
     SimpleCursorAdapter mAdapter;
+    Button orderButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -82,5 +83,11 @@ public class Catagories extends ListActivity
                 startActivity(desertActivity);
                 break;
         }
+    }
+
+    public void sendMessage(View view)
+    {
+        Intent intent = new Intent(Catagories.this, Order.class);
+        startActivity(intent);
     }
 }

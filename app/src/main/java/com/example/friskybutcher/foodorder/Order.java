@@ -1,6 +1,7 @@
 package com.example.friskybutcher.foodorder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -22,27 +23,25 @@ public class Order extends AppCompatActivity
     Cursor mCursor;
     DBManager db;
     SimpleCursorAdapter mAdapter;
-    Button back;
-
+    Button orderButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_starters);
+        setContentView(R.layout.activity_order);
 
-        ListView listView = (ListView) findViewById(android.R.id.list);
+        ListView listView = (ListView) findViewById(R.id.list1);
 
         LayoutInflater inflater = getLayoutInflater();
         View vi = inflater.inflate(R.layout.starter_row, null);
 
         db = new DBManager(this);
-
+        Button payButton = (Button)findViewById(R.id.payButton);
 
         passVar = getIntent().getStringExtra(Starters.itemName);
-        passedView = (TextView)vi.findViewById(R.id.name);
+        passedView = (TextView) vi.findViewById(R.id.name);
         passedView.setText(passVar);
-        Toast.makeText(getApplicationContext(), passVar, Toast.LENGTH_SHORT).show();
 
         try
         {
@@ -50,7 +49,7 @@ public class Order extends AppCompatActivity
             mCursor = db.addToOrder(passVar);
             mCursor = db.viewOrder();
         }
-        catch(SQLException e)
+        catch (SQLException e)
         {
             e.printStackTrace();
         }
@@ -59,4 +58,5 @@ public class Order extends AppCompatActivity
 
         listView.setAdapter(mAdapter);
     }
+
 }

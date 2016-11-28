@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SimpleCursorAdapter;
 
 public class MainCourse extends ListActivity
@@ -36,5 +37,11 @@ public class MainCourse extends ListActivity
         mAdapter = new SimpleCursorAdapter(this, R.layout.starter_row, mCursor, columns, to, 0);
 
         setListAdapter(mAdapter);
+    }
+
+    public void sendMessage(View view)
+    {
+        Intent intent = new Intent(MainCourse.this, Order.class);
+        startActivity(intent);
     }
 }

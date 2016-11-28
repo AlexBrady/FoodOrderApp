@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -23,18 +24,10 @@ public class Starters extends AppCompatActivity
     int[] to = {R.id.name, R.id.description, R.id.price};
     public final static String itemName = "com.example.friskybutcher.foodorder.Starters._id";
 
-    //ListView listView = (ListView) findViewById(R.id.list);
-
     Cursor mCursor;
     DBManager db;
     Intent starter;
     SimpleCursorAdapter mAdapter;
-    //TodoDatabaseHandler is a SQLiteOpenHelper class connecting to SQLite
-     TodoCursorAdapter handler = new TodoCursorAdapter(this, mCursor);
-    //Get access to the underlying writeable database
-    //SQLiteDatabase db_2 = handler.getWritableDatabase();
-    // Query for items from the database and get a cursor back
-    //Cursor todoCursor = db_2.rawQuery("SELECT  * FROM food_items", null);
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -75,4 +68,10 @@ public class Starters extends AppCompatActivity
             startActivity(i);
         }
     };
+
+    public void sendMessage(View view)
+    {
+        Intent intent = new Intent(Starters.this, Order.class);
+        startActivity(intent);
+    }
 }
