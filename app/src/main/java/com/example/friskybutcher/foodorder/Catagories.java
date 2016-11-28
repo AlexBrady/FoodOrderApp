@@ -23,7 +23,6 @@ public class Catagories extends ListActivity
     int[] to = {R.id.catagory};
     Cursor mCursor;
     DBManager db;
-    Intent soup;
     SimpleCursorAdapter mAdapter;
 
     @Override
@@ -32,14 +31,12 @@ public class Catagories extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starters);
 
-        soup = new Intent(this, Catagories.class);
         db = new DBManager(this);
 
         try
         {
             db.open();
             mCursor = db.getCategories();
-            //mCursor.getString( mCursor.getColumnIndex( "CATAGORY "));
         }
         catch(Exception e)
         {

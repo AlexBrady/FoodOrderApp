@@ -33,7 +33,7 @@ public class DBManager
 
     public static final String COL_1_O = "_id";
     public static final String COL_2_O = "NAME";
-    public static final String COL_3_O = "CATAGORY";
+    public static final String COL_3_O = "PRICE";
 
 
     private static final String TAG = "DbAdapter";
@@ -320,21 +320,11 @@ public class DBManager
     {
         Cursor mCursor = null;
         String q = "INSERT INTO " + ORDER_TABLE +
-                " SELECT _id" +
-                ", " + COL_2 +
+                " SELECT _id, " + COL_2 +
                 ", " + COL_4 +
                 " FROM " + TABLE_NAME +
-                " WHERE " + COL_1 +
-                " = " + id + ";";
-
-        /*String q = "INSERT INTO " + ORDER_TABLE +
-                " (SELECT " + COL_1 +
-                ", " + COL_2 +
-                ", " + COL_4 +
-                " FROM " + TABLE_NAME +
-                " WHERE " + COL_1 +
-                " = " + id + ");";*/
-
+                " WHERE " + " _id " +
+                "= " + id + ";";
         try
         {
             mCursor = db.rawQuery(q, null);
@@ -350,13 +340,28 @@ public class DBManager
             Log.e("Error", "Failed to get item" + e);
         }
         return mCursor;
-        /*db.execSQL("INSERT INTO " + ORDER_TABLE +
-                " SELECT " + COL_2 +
-                ", " + COL_4 +
-                " FROM " + TABLE_NAME +
-                " WHERE " + COL_1 +
-                " = " + id + ";");*/
-        //db.rawQuery(q, null);
+    }
+
+    public Cursor viewOrder()
+    {
+        Cursor mCursor = null;
+        String q = "SELECT * FROM " + ORDER_TABLE + ";";
+
+        try
+        {
+            mCursor = db.rawQuery(q, null);
+
+            if(mCursor != null)
+            {
+                mCursor.moveToFirst();
+            }
+            return mCursor;
+        }
+        catch(SQLException e)
+        {
+            Log.e("Error", "Failed to get item" + e);
+        }
+        return mCursor;
     }
 
 }
