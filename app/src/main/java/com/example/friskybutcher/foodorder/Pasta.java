@@ -12,7 +12,7 @@ public class Pasta extends ListActivity
     int[] to = {R.id.name, R.id.description, R.id.price};
     Cursor mCursor;
     DBManager db;
-    Intent soup;
+    //Intent soup;
     SimpleCursorAdapter mAdapter;
 
     @Override
@@ -21,7 +21,7 @@ public class Pasta extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starters);
 
-        soup = new Intent(this, Pasta.class);
+        //soup = new Intent(this, Pasta.class);
         db = new DBManager(this);
 
         try

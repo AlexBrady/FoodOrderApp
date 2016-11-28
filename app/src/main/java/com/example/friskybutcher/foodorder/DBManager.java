@@ -33,12 +33,25 @@ public class DBManager
 
     public static final String COL_1_O = "_id";
     public static final String COL_2_O = "NAME";
-    public static final String COL_3_O = "PRICE";
+    public static final String COL_3_O = "CATAGORY";
+
 
     private static final String TAG = "DbAdapter";
 
-    private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2 + " TEXT,  " + COL_3 + " TEXT" + COL_4 + " REAL, " + COL_5 + " TEXT, " + COL_6 + " STOCK);";
-    private static final String CREATE_ORDER_TABLE = "CREATE TABLE " + ORDER_TABLE + "(" + COL_1_O + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2_O + " TEXT,  " + COL_3_O + " REAL);";
+    private static final String CREATE_TABLE =
+            "CREATE TABLE " + TABLE_NAME +
+                    " (" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COL_2 + " TEXT, " +
+                    COL_3 + " TEXT, " +
+                    COL_4 + " REAL, " +
+                    COL_5 + " TEXT, " +
+                    COL_6 + " REAL);";
+
+    private static final String CREATE_ORDER_TABLE =
+            "CREATE TABLE " + ORDER_TABLE +
+                    " (" + COL_1_O + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COL_2_O + " TEXT, " +
+                    COL_3_O + " REAL);";
 
     private final Context context;
     private DatabaseHelper DBHelper;
@@ -69,8 +82,6 @@ public class DBManager
             //db.execSQL("create table " + ORDER_TABLE + "(_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,PRICE REAL");
             //Log.w(TAG, CREATE_ORDER_TABLE);
             db.execSQL(CREATE_ORDER_TABLE);
-
-            db.execSQL("insert into " + ORDER_TABLE + "(NAME, PRICE) VALUES ('Stuff', 7)");
 
             db.execSQL("insert into " + TABLE_NAME + "(NAME, CATAGORY, PRICE, DESCRIPTION, STOCK) VALUES ('Spicy Chicken Wangs', 'Starters', 7.99, 'Locally sourced Irish Chicken Wings with super spicy sauce!', 150)");
             db.execSQL("insert into " + TABLE_NAME + "(NAME, CATAGORY, PRICE, DESCRIPTION, STOCK) VALUES ('Mexican Quesadillas', 'Starters', 6.99, 'Delicious crunchy quesadillas', 120)");
@@ -116,7 +127,7 @@ public class DBManager
 
     public DBManager open() throws SQLException
     {
-        DBHelper = new DatabaseHelper(context);//mDbHelper now has the ability (through SQLiteOpenHelper) to manage our database (through context)
+        DBHelper = new DatabaseHelper(context);//DbHelper now has the ability (through SQLiteOpenHelper) to manage our database (through context)
         db = DBHelper.getWritableDatabase();//opens database to be read or written
         return this;
     }
@@ -304,26 +315,48 @@ public class DBManager
         return mCursor;
     }
 
-    public Cursor showItems()
-    {
-        String[] columns = new String[] { DBManager.COL_2, DBManager.COL_5, DBManager.COL_4};
-        Cursor mCursor = db.query(DBManager.TABLE_NAME, columns, null, null, null ,null, null);
 
-        if ( mCursor != null)
+    public Cursor addToOrder(String id)
+    {
+        Cursor mCursor = null;
+        String q = "INSERT INTO " + ORDER_TABLE +
+                " SELECT _id" +
+                ", " + COL_2 +
+                ", " + COL_4 +
+                " FROM " + TABLE_NAME +
+                " WHERE " + COL_1 +
+                " = " + id + ";";
+
+        /*String q = "INSERT INTO " + ORDER_TABLE +
+                " (SELECT " + COL_1 +
+                ", " + COL_2 +
+                ", " + COL_4 +
+                " FROM " + TABLE_NAME +
+                " WHERE " + COL_1 +
+                " = " + id + ");";*/
+
+        try
         {
-            mCursor.moveToFirst();
+            mCursor = db.rawQuery(q, null);
+
+            if (mCursor != null)
+            {
+                mCursor.moveToFirst();
+            }
+            return mCursor;
+        }
+        catch(SQLException e)
+        {
+            Log.e("Error", "Failed to get item" + e);
         }
         return mCursor;
-    }
-
-    public long addToOrder(String name, float price)
-    {
-        ContentValues orderValues = new ContentValues();
-        orderValues.put(COL_2, name);
-        orderValues.put(COL_4, price);
-
-        //return db.insert(ORDER_TABLE, null, orderValues);
-        return 1;
+        /*db.execSQL("INSERT INTO " + ORDER_TABLE +
+                " SELECT " + COL_2 +
+                ", " + COL_4 +
+                " FROM " + TABLE_NAME +
+                " WHERE " + COL_1 +
+                " = " + id + ";");*/
+        //db.rawQuery(q, null);
     }
 
 }

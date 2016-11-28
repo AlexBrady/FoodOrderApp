@@ -23,7 +23,8 @@
         <activity android:name=".Fish" />
         <activity android:name=".MainCourse" />
         <activity android:name=".Desert" />
-        <activity android:name=".ShowItems"></activity>
+        <activity android:name=".ShowItems" />
+        <activity android:name=".Order"></activity>
     </application>
 
 </manifest>
