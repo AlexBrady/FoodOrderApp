@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
+    //Declare DBManager, user table and login button
     DBManager myDb;
     public EditText table_number;
     Button butOne;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         myDb = new DBManager(this);
 
+        //Find ID of table number EditText and Button
         table_number = (EditText) findViewById(R.id.table_no);
         butOne = (Button) findViewById(R.id.button_table);
         butOne.setOnClickListener(this);
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClick(View view)
     {
+        //Switch to Catagory page when login button clicked
         Toast.makeText(getApplicationContext(), "Logged in at Table  " + table_number.getText(), Toast.LENGTH_LONG).show();
         startActivity(new Intent(MainActivity.this, Catagories.class));
     }

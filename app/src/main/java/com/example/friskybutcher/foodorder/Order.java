@@ -9,21 +9,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class Order extends AppCompatActivity
 {
     String[] columns = {"NAME", "PRICE"};
     int[] to = {R.id.name, R.id.price};
     String passVar = null;
-    private TextView passedView = null;
+    public TextView passedView = null;
+    TextView textView;
     Cursor mCursor;
     DBManager db;
+    double total;
     SimpleCursorAdapter mAdapter;
-    Button orderButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,13 +35,13 @@ public class Order extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        ListView listView = (ListView) findViewById(R.id.list1);
+        final ListView listView = (ListView) findViewById(R.id.list1);
 
         LayoutInflater inflater = getLayoutInflater();
         View vi = inflater.inflate(R.layout.starter_row, null);
 
+        textView = (TextView) this.findViewById(R.id.total);
         db = new DBManager(this);
-        Button payButton = (Button)findViewById(R.id.payButton);
 
         passVar = getIntent().getStringExtra(Starters.itemName);
         passedView = (TextView) vi.findViewById(R.id.name);
@@ -48,6 +52,8 @@ public class Order extends AppCompatActivity
             db.open();
             mCursor = db.addToOrder(passVar);
             mCursor = db.viewOrder();
+            total = db.totalPrice();
+            String s = String.format("%.2f", total);
         }
         catch (SQLException e)
         {
@@ -56,7 +62,28 @@ public class Order extends AppCompatActivity
 
         mAdapter = new SimpleCursorAdapter(this, R.layout.starter_row, mCursor, columns, to, 0);
 
+        textView.setText(String.valueOf(total));
         listView.setAdapter(mAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                db.remove(id);
+                mAdapter.notifyDataSetChanged();
+                finish();
+                Intent intent = new Intent(Order.this, Order.class);
+                startActivity(intent);
+            }
+        });
     }
+
+    public void sendMessage(View view)
+    {
+        Intent intent = new Intent(Order.this, Pay.class);
+        startActivity(intent);
+    }
+
 
 }

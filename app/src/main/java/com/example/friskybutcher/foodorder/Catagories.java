@@ -19,6 +19,7 @@ import android.widget.Toolbar;
 
 public class Catagories extends ListActivity
 {
+    //Declare Catagory Column,
     String[] columns = {"CATAGORY"};
     int[] to = {R.id.catagory};
     Cursor mCursor;

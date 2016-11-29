@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -364,6 +365,23 @@ public class DBManager extends AppCompatActivity
             Log.e("Error", "Failed to get item" + e);
         }
         return mCursor;
+    }
+
+    public double totalPrice()
+    {
+        Cursor c = db.rawQuery("SELECT Sum(" + COL_3_O +
+                ") FROM " + ORDER_TABLE, null);
+        if ( c.moveToFirst() )
+        {
+            return c.getDouble(0);
+        }
+        return c.getDouble(0);
+    }
+
+    public void remove(long id)
+    {
+        String string = String.valueOf(id);
+        db.execSQL("DELETE FROM " + ORDER_TABLE + " WHERE _id = '" + string + "'");
     }
 
 }
