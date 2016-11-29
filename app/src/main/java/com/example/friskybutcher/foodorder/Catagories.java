@@ -1,15 +1,15 @@
 package com.example.friskybutcher.foodorder;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-public class Catagories extends ListActivity
+public class Catagories extends AppCompatActivity
 {
     //Declare Catagory Column and int array to find the text view in the layout xml
     String[] columns = {"CATAGORY"};
@@ -24,6 +24,8 @@ public class Catagories extends ListActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starters);
+
+        ListView listView = (ListView) findViewById(android.R.id.list);
 
         db = new DBManager(this);
 
@@ -40,10 +42,10 @@ public class Catagories extends ListActivity
 
         mAdapter = new SimpleCursorAdapter(this, R.layout.row, mCursor, columns, to, 0); //Set Cursor adapter
 
-        setListAdapter(mAdapter);
+        listView.setAdapter(mAdapter);
         Toast.makeText(getApplicationContext(), "Tap an item to add it to your order!", Toast.LENGTH_LONG).show();
-    }
 
+    }
 
     protected void onListItemClick(ListView i, View v, int position, long id)
     {
