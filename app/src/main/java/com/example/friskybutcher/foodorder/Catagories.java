@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 public class Catagories extends ListActivity
@@ -48,6 +49,7 @@ public class Catagories extends ListActivity
         mAdapter = new SimpleCursorAdapter(this, R.layout.row, mCursor, columns, to, 0);
 
         setListAdapter(mAdapter);
+        Toast.makeText(getApplicationContext(), "Tap an item to add it to your order!", Toast.LENGTH_LONG).show();
     }
 
 

@@ -33,7 +33,6 @@ public class Pay extends Activity
         paymentMethods.add("Cash");
         paymentMethods.add("Credit");
         paymentMethods.add("Debit");
-        paymentMethods.add("PayPal");
 
         ArrayAdapter<String>  dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, paymentMethods);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

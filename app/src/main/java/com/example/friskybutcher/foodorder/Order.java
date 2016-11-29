@@ -65,6 +65,8 @@ public class Order extends AppCompatActivity
         textView.setText(String.valueOf(total));
         listView.setAdapter(mAdapter);
 
+        Toast.makeText(getApplicationContext(), "Tap an item to remove it from your order!", Toast.LENGTH_SHORT).show();
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -73,7 +75,7 @@ public class Order extends AppCompatActivity
                 db.remove(id);
                 mAdapter.notifyDataSetChanged();
                 finish();
-                Intent intent = new Intent(Order.this, Order.class);
+                Intent intent = new Intent(Order.this, Catagories.class);
                 startActivity(intent);
             }
         });
