@@ -1,11 +1,11 @@
 package com.example.friskybutcher.foodorder;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -14,15 +14,25 @@ import java.util.List;
 
 public class Pay extends Activity
 {
+    //Spinner to select diffent payment methods
     private Spinner spinner;
+    Button payButton;
+    DBManager db;
+    Intent pay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
 
+        pay = new Intent(this, Pay.class);
+        db = new DBManager(this);
+
         addItemsOnSpinner();
         addListenerOnSpinnerItemSelection();
+
+        payButton = (Button) this.findViewById(R.id.payButton);
 
     }
 
@@ -30,6 +40,7 @@ public class Pay extends Activity
     {
         spinner = (Spinner) findViewById(R.id.spinner);
         List<String> paymentMethods = new ArrayList<String>();
+        //Add payment options to the spinner dropdown list
         paymentMethods.add("Cash");
         paymentMethods.add("Credit");
         paymentMethods.add("Debit");
@@ -42,5 +53,10 @@ public class Pay extends Activity
     public void addListenerOnSpinnerItemSelection()
     {
         spinner = (Spinner) findViewById(R.id.spinner);
+    }
+
+    public void sendMessage(View view)
+    {
+        Toast.makeText(getApplicationContext(), "Order Placed!", Toast.LENGTH_SHORT);
     }
 }

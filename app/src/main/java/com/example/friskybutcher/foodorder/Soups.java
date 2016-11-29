@@ -9,16 +9,21 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+/****************************************************************************************************************************************/
+/*  THIS, PASTA, SANDWICHES, MAINCOURSE, FISH AND DESERT WILL ALL BE THE SAME JUST WITH DIFFERENT VALUES TO CORRESPOND TO THE CATAGORY  */
+/****************************************************************************************************************************************/
+
 public class Soups extends ListActivity
 {
-
     String[] columns = {"NAME", "DESCRIPTION", "PRICE"};
     int[] to = {R.id.name, R.id.description, R.id.price};
+    public final static String itemName = "com.example.friskybutcher.foodorder.Starters._id";
+
     Cursor mCursor;
     DBManager db;
     Intent soup;
     SimpleCursorAdapter mAdapter;
-    public final static String itemName = "com.example.friskybutcher.foodorder.Starters._id";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

@@ -1,6 +1,5 @@
 package com.example.friskybutcher.foodorder;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -8,25 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.HashMap;
-
-/**
- * Created by friskybutcher on 23/11/16.
- */
 
 public class DBManager extends AppCompatActivity
 {
-
+    //Declare Database name, Table names, and version
     private static final String DATABASE_NAME = "Restaurant";
-    private static final String TABLE_NAME = "food_items";
-    private static final String ORDER_TABLE = "orders";
+    private static final String TABLE_NAME = "food_items";  //This holds the menu items
+    private static final String ORDER_TABLE = "orders"; //This holds the users current order
     private static final int DATABASE_VERSION = 1;
-
+    //Declare Columns in each table
     public static final String COL_1 = "_id";
     public static final String COL_2 = "NAME";
     public static final String COL_3 = "CATAGORY";
@@ -37,10 +26,13 @@ public class DBManager extends AppCompatActivity
     public static final String COL_1_O = "_id";
     public static final String COL_2_O = "NAME";
     public static final String COL_3_O = "PRICE";
-
-
+    //Declare context, dbhelper and the db connection
+    private final Context context;
+    private DatabaseHelper DBHelper;
+    private SQLiteDatabase db;
     private static final String TAG = "DbAdapter";
 
+    //Strings to create tables
     private static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME +
                     " (" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -56,10 +48,6 @@ public class DBManager extends AppCompatActivity
                     COL_2_O + " TEXT, " +
                     COL_3_O + " REAL);";
 
-    private final Context context;
-    private DatabaseHelper DBHelper;
-    private SQLiteDatabase db;
-
     public DBManager(Context ctx)
     {
         this.context = ctx;
@@ -68,7 +56,6 @@ public class DBManager extends AppCompatActivity
 
     private static class DatabaseHelper extends SQLiteOpenHelper
     {
-        private  SQLiteOpenHelper _openHelper;
         DatabaseHelper(Context context)
         {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -78,14 +65,12 @@ public class DBManager extends AppCompatActivity
         @Override
         public void onCreate(SQLiteDatabase db)
         {
-            //Log.w(TAG, CREATE_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + ORDER_TABLE);
+            //Create food_items table and Order table
             db.execSQL(CREATE_TABLE);
-
-            //db.execSQL("create table " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,CATAGORY TEXT,PRICE REAL,DESCRIPTION TEXT,STOCK INTEGER)");
-            //db.execSQL("create table " + ORDER_TABLE + "(_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,PRICE REAL");
-            //Log.w(TAG, CREATE_ORDER_TABLE);
             db.execSQL(CREATE_ORDER_TABLE);
 
+            //Inserts for the menu (29 in total)
             db.execSQL("insert into " + TABLE_NAME + "(NAME, CATAGORY, PRICE, DESCRIPTION, STOCK) VALUES ('Spicy Chicken Wangs', 'Starters', 7.99, 'Locally sourced Irish Chicken Wings with super spicy sauce!', 150)");
             db.execSQL("insert into " + TABLE_NAME + "(NAME, CATAGORY, PRICE, DESCRIPTION, STOCK) VALUES ('Mexican Quesadillas', 'Starters', 6.99, 'Delicious crunchy quesadillas', 120)");
             db.execSQL("insert into " + TABLE_NAME + "(NAME, CATAGORY, PRICE, DESCRIPTION, STOCK) VALUES ('Pizza Balls', 'Starters', 8, 'One of our new recipies, Time to deliver a pizza ball!', 25)");
@@ -120,6 +105,7 @@ public class DBManager extends AppCompatActivity
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
+            //Upgrade version
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + ORDER_TABLE);
@@ -130,17 +116,19 @@ public class DBManager extends AppCompatActivity
 
     public DBManager open() throws SQLException
     {
-        DBHelper = new DatabaseHelper(context);//DbHelper now has the ability (through SQLiteOpenHelper) to manage our database (through context)
+        //DbHelper now has the ability (through SQLiteOpenHelper) to manage our database (through context)
+        DBHelper = new DatabaseHelper(context);
         db = DBHelper.getWritableDatabase();//opens database to be read or written
         return this;
     }
 
+    //Method to display Catagories in a list
     public Cursor getCategories()
     {
-        //true, TABLE_NAME, new String[] { COL_1 ,COL_3 }, null, null, COL_3, null, null, null
+        //Declare Cursor
         Cursor mCursor = null;
-        //String q = "SELECT DISTINCT("+ COL_3 + "), " + COL_1 + " FROM " + TABLE_NAME + "GROUP BY (NOT NULL " + COL_3 + ")";
-        String w = "SELECT DISTINCT " + COL_3 + " AS " + COL_1 + "," + COL_3 + " FROM " + TABLE_NAME;
+        String w = "SELECT DISTINCT " + COL_3 + " AS " + COL_1 + "," + COL_3 + " FROM " + TABLE_NAME;   //Get rid of duplicate catagory values
+
         try
         {
             mCursor = db.rawQuery(w, null);
@@ -155,11 +143,14 @@ public class DBManager extends AppCompatActivity
         {
             Log.e("Error", "Failed to get item" + e);
         }
+        //return cursor query to display items
         return mCursor;
     }
 
+    //Method to get starters from db and display in a list
     public Cursor getStarters()
     {
+        //Declare cursor, matching string, and string query to return in a cursor
         Cursor mCursor = null;
         String starter_cata = "Starters";
         String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_3 + " = '" + starter_cata + "'";
@@ -178,9 +169,12 @@ public class DBManager extends AppCompatActivity
         {
             Log.e("Error", "Failed to get item" + e);
         }
+        //return query in cursor
         return mCursor;
     }
-
+    /**********************************************************************************************************************/
+    /*  FROM HERE TO DESERT WILL BE THE SAME METHODS BUT JUST VARIABLES CHANGED TO CORRESPOND TO THE DIFFERENT CATAGORIES */
+    /**********************************************************************************************************************/
     public Cursor getSoup()
     {
         Cursor mCursor = null;
@@ -318,16 +312,18 @@ public class DBManager extends AppCompatActivity
         return mCursor;
     }
 
-
+    //Method to add an item to order database
     public Cursor addToOrder(String id)
     {
+        //String 'id' is passed through, which is the ID of the item on a list, which will be added to the Order db.
+        //Declare cursor
         Cursor mCursor = null;
         String q = "INSERT INTO " + ORDER_TABLE +
                 " SELECT _id, " + COL_2 +
                 ", " + COL_4 +
                 " FROM " + TABLE_NAME +
                 " WHERE " + " _id " +
-                "= " + id + ";";
+                "= " + id + ";";    //String to query db to add item to order
         try
         {
             mCursor = db.rawQuery(q, null);
@@ -345,10 +341,11 @@ public class DBManager extends AppCompatActivity
         return mCursor;
     }
 
+    //Method to display the users current order
     public Cursor viewOrder()
     {
         Cursor mCursor = null;
-        String q = "SELECT * FROM " + ORDER_TABLE + ";";
+        String q = "SELECT * FROM " + ORDER_TABLE + ";";    //SELECT ALL FROM ORDERS
 
         try
         {
@@ -367,21 +364,22 @@ public class DBManager extends AppCompatActivity
         return mCursor;
     }
 
+    //Method to calculate all values in the price column of the Order db
     public double totalPrice()
     {
         Cursor c = db.rawQuery("SELECT Sum(" + COL_3_O +
-                ") FROM " + ORDER_TABLE, null);
+                ") FROM " + ORDER_TABLE, null); //Gets the sum of all values in 'PRICE' Catagory
         if ( c.moveToFirst() )
         {
-            return c.getDouble(0);
+            return c.getDouble(0);  //returns double value from cursor
         }
         return c.getDouble(0);
     }
 
+    //Method to remove a row from the Oder db
     public void remove(long id)
     {
-        String string = String.valueOf(id);
+        String string = String.valueOf(id); //id is passed which is the id of the item clicked and to be deleted
         db.execSQL("DELETE FROM " + ORDER_TABLE + " WHERE _id = '" + string + "'");
     }
-
 }

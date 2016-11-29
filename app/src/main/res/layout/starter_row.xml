@@ -25,6 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/description"
         android:layout_alignParentEnd="true"
-        android:id="@+id/price" />
+        android:id="@+id/price"
+        android:textStyle="normal|bold"
+        android:textColor="@android:color/black" />
 
 </RelativeLayout>
