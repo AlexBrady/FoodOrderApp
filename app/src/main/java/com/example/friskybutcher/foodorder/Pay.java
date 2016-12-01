@@ -19,6 +19,7 @@ public class Pay extends Activity
     Button payButton;
     DBManager db;
     Intent pay;
+    String placed = "Order Placed !";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,8 +33,17 @@ public class Pay extends Activity
         addItemsOnSpinner();
         addListenerOnSpinnerItemSelection();
 
-        payButton = (Button) this.findViewById(R.id.payButton);
+        payButton = (Button) this.findViewById(R.id.finish);
 
+        payButton.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                Toast.makeText(getApplicationContext(), placed, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void addItemsOnSpinner()
@@ -55,8 +65,9 @@ public class Pay extends Activity
         spinner = (Spinner) findViewById(R.id.spinner);
     }
 
-    public void sendMessage(View view)
+    /*public void sendMessage(View view)
     {
-        Toast.makeText(getApplicationContext(), "Order Placed!", Toast.LENGTH_SHORT);
-    }
+        Toast.makeText(this, placed, Toast.LENGTH_SHORT);
+    }*/
 }
+
